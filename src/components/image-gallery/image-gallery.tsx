@@ -19,23 +19,23 @@ export class ImageGallery {
 
   private images: GalleryImage[] = [
     {
-      full: getAssetPath('./assets/image-product-1.jpg'),
-      thumbnail: getAssetPath('./assets/image-product-1-thumbnail.jpg'),
+      full: getAssetPath('./image-product-1.jpg'),
+      thumbnail: getAssetPath('./image-product-1-thumbnail.jpg'),
       alt: 'Product image 1',
     },
     {
-      full: getAssetPath('./assets/image-product-2.jpg'),
-      thumbnail: getAssetPath('./assets/image-product-2-thumbnail.jpg'),
+      full: getAssetPath('./image-product-2.jpg'),
+      thumbnail: getAssetPath('./image-product-2-thumbnail.jpg'),
       alt: 'Product image 2',
     },
     {
-      full: getAssetPath('./assets/image-product-3.jpg'),
-      thumbnail: getAssetPath('./assets/image-product-3-thumbnail.jpg'),
+      full: getAssetPath('./image-product-3.jpg'),
+      thumbnail: getAssetPath('./image-product-3-thumbnail.jpg'),
       alt: 'Product image 3',
     },
     {
-      full: getAssetPath('./assets/image-product-4.jpg'),
-      thumbnail: getAssetPath('./assets/image-product-4-thumbnail.jpg'),
+      full: getAssetPath('./image-product-4.jpg'),
+      thumbnail: getAssetPath('./image-product-4-thumbnail.jpg'),
       alt: 'Product image 4',
     },
   ];
@@ -132,11 +132,11 @@ export class ImageGallery {
             </div>
 
             <button class="gallery__nav gallery__nav--previous" onClick={this.goToPrevious} aria-label="Previous image" type="button">
-              <img src={getAssetPath('./assets/icon-previous.svg')} alt="" aria-hidden="true" />
+              <img src={getAssetPath('./icon-previous.svg')} alt="" aria-hidden="true" />
             </button>
 
             <button class="gallery__nav gallery__nav--next" onClick={this.goToNext} aria-label="Next image" type="button">
-              <img src={getAssetPath('./assets/icon-next.svg')} alt="" aria-hidden="true" />
+              <img src={getAssetPath('./icon-next.svg')} alt="" aria-hidden="true" />
             </button>
           </div>
 
@@ -164,18 +164,18 @@ export class ImageGallery {
           <div class="modal" role="dialog" aria-modal="true" aria-label="Image gallery lightbox" onClick={this.closeModal} onKeyDown={this.handleModalKeyDown}>
             <div class="modal__content" onClick={(e: Event) => e.stopPropagation()}>
               <button class="modal__close" onClick={this.closeModal} aria-label="Close lightbox" type="button">
-                <img src={getAssetPath('./assets/icon-close.svg')} alt="" aria-hidden="true" />
+                <img src={getAssetPath('./icon-close.svg')} alt="" aria-hidden="true" />
               </button>
 
               <div class="modal__image-container">
                 <img class="modal__image" src={currentImage.full} alt={currentImage.alt} />
 
                 <button class="modal__nav modal__nav--previous" onClick={this.goToPrevious} aria-label="Previous image" type="button">
-                  <img src={getAssetPath('./assets/icon-previous.svg')} alt="" aria-hidden="true" />
+                  <img src={getAssetPath('./icon-previous.svg')} alt="" aria-hidden="true" />
                 </button>
 
                 <button class="modal__nav modal__nav--next" onClick={this.goToNext} aria-label="Next image" type="button">
-                  <img src={getAssetPath('./assets/icon-next.svg')} alt="" aria-hidden="true" />
+                  <img src={getAssetPath('./icon-next.svg')} alt="" aria-hidden="true" />
                 </button>
               </div>
 
