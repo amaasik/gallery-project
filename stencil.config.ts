@@ -18,7 +18,6 @@ export const config: Config = {
     {
       type: 'www',
       dir: 'docs',
-      baseUrl: '/gallery-project/',
       serviceWorker: null, // disable service workers
     },
   ],
