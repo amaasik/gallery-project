@@ -1,0 +1,362 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Gallery Block */
+.gallery {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Gallery Main Image Container */
+.gallery__main {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.gallery__image-container {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  outline: none;
+}
+
+.gallery__image-container:focus-visible {
+  outline: 3px solid hsl(26, 100%, 55%);
+  outline-offset: -3px;
+}
+
+.gallery__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Gallery Navigation Buttons */
+.gallery__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: hsl(0, 0%, 100%);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: opacity 0.2s ease;
+}
+
+.gallery__nav:hover img {
+  filter: invert(58%) sepia(89%) saturate(2604%) hue-rotate(346deg) brightness(101%) contrast(101%);
+}
+
+.gallery__nav:active img {
+  filter: invert(58%) sepia(89%) saturate(2604%) hue-rotate(346deg) brightness(101%) contrast(101%);
+}
+
+.gallery__nav:focus-visible {
+  outline: 3px solid hsl(26, 100%, 55%);
+  outline-offset: 2px;
+}
+
+.gallery__nav--previous {
+  left: 16px;
+}
+
+.gallery__nav--next {
+  right: 16px;
+}
+
+.gallery__nav img {
+  width: 12px;
+  height: 18px;
+  transition: filter 0.2s ease;
+}
+
+/* Gallery Thumbnails */
+.gallery__thumbnails {
+  display: none;
+  gap: 16px;
+  margin-top: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.gallery__thumbnail {
+  width: 88px;
+  height: 88px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  position: relative;
+  transition: border-color 0.2s ease;
+}
+
+.gallery__thumbnail:focus-visible {
+  outline: 3px solid hsl(26, 100%, 55%);
+  outline-offset: 2px;
+}
+
+.gallery__thumbnail:hover .gallery__thumbnail-image {
+  opacity: 0.5;
+}
+
+.gallery__thumbnail--active {
+  border-color: hsl(26, 100%, 55%);
+}
+
+.gallery__thumbnail--active .gallery__thumbnail-image {
+  opacity: 0.4;
+}
+
+.gallery__thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+/* Modal Block */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsla(0, 0%, 0%, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal__content {
+  position: relative;
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.modal__close {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.modal__close:hover img {
+  filter: invert(58%) sepia(89%) saturate(2604%) hue-rotate(346deg) brightness(101%) contrast(101%);
+}
+
+.modal__close:active img {
+  filter: invert(58%) sepia(89%) saturate(2604%) hue-rotate(346deg) brightness(101%) contrast(101%);
+}
+
+.modal__close:focus-visible {
+  outline: 3px solid hsl(26, 100%, 55%);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.modal__close img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+  transition: filter 0.2s ease;
+}
+
+.modal__image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 32px;
+  border-radius: 16px;
+  overflow: visible;
+}
+
+.modal__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+}
+
+.modal__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  background-color: hsl(0, 0%, 100%);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.modal__nav:hover img {
+  filter: invert(58%) sepia(89%) saturate(2604%) hue-rotate(346deg) brightness(101%) contrast(101%);
+}
+
+.modal__nav:active img {
+  filter: invert(58%) sepia(89%) saturate(2604%) hue-rotate(346deg) brightness(101%) contrast(101%);
+}
+
+.modal__nav:focus-visible {
+  outline: 3px solid hsl(26, 100%, 55%);
+  outline-offset: 2px;
+}
+
+.modal__nav--previous {
+  left: -28px;
+}
+
+.modal__nav--next {
+  right: -28px;
+}
+
+.modal__nav img {
+  width: 16px;
+  height: 24px;
+  transition: filter 0.2s ease;
+}
+
+.modal__thumbnails {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modal__thumbnail {
+  width: 88px;
+  height: 88px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  position: relative;
+  transition: border-color 0.2s ease;
+}
+
+.modal__thumbnail:focus-visible {
+  outline: 3px solid hsl(26, 100%, 55%);
+  outline-offset: 2px;
+}
+
+.modal__thumbnail:hover .modal__thumbnail-image {
+  opacity: 0.5;
+}
+
+.modal__thumbnail--active {
+  border-color: hsl(26, 100%, 55%);
+}
+
+.modal__thumbnail--active .modal__thumbnail-image {
+  opacity: 0.4;
+}
+
+.modal__thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background-color: hsl(0, 0%, 100%);
+  transition: opacity 0.2s ease;
+}
+
+/* Tablet and Desktop Styles */
+@media (min-width: 768px) {
+  :host {
+    margin: 0 auto;
+  }
+
+  .gallery {
+    padding: 20px;
+  }
+
+  .gallery__main {
+    border-radius: 16px;
+  }
+
+  .gallery__nav {
+    display: none;
+  }
+
+  .gallery__thumbnails {
+    display: flex;
+  }
+
+  .gallery__image-container:hover .gallery__image {
+    opacity: 0.9;
+  }
+}
+
+/* Large Desktop Styles */
+@media (min-width: 1024px) {
+  .gallery {
+    padding: 40px;
+  }
+
+  .gallery__thumbnails {
+    gap: 24px;
+    margin-top: 32px;
+  }
+
+  .gallery__thumbnail {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Ensure minimum screen width of 320px */
+@media (max-width: 320px) {
+  .gallery__nav {
+    width: 36px;
+    height: 36px;
+  }
+
+  .gallery__nav--previous {
+    left: 12px;
+  }
+
+  .gallery__nav--next {
+    right: 12px;
+  }
+
+  .gallery__nav img {
+    width: 10px;
+    height: 16px;
+  }
+}
