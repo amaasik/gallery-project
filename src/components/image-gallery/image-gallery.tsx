@@ -17,6 +17,11 @@ export class ImageGallery {
   @State() modalIndex: number = 0;
   @State() isModalOpen: boolean = false;
   @State() isMobile: boolean = false;
+  @State() announceText: string = '';
+
+  private lastFocusedElement: HTMLElement | null = null;
+  private modalCloseButtonRef?: HTMLButtonElement;
+  private modalRef?: HTMLDivElement;
 
   private images: GalleryImage[] = [
     {
@@ -75,27 +80,75 @@ export class ImageGallery {
 
   private openModal = () => {
     if (!this.isMobile) {
+      this.lastFocusedElement = document.activeElement as HTMLElement;
       this.modalIndex = this.currentIndex;
       this.isModalOpen = true;
       document.body.style.overflow = 'hidden';
+
+      // Focus the close button after modal opens
+      setTimeout(() => {
+        this.modalCloseButtonRef?.focus();
+        this.announceText = `Lightbox opened. Viewing image ${this.modalIndex + 1} of ${this.images.length}`;
+      }, 100);
     }
   };
 
   private goToModalPrevious = () => {
     this.modalIndex = this.modalIndex === 0 ? this.images.length - 1 : this.modalIndex - 1;
+    this.announceText = `Image ${this.modalIndex + 1} of ${this.images.length}`;
   };
 
   private goToModalNext = () => {
     this.modalIndex = this.modalIndex === this.images.length - 1 ? 0 : this.modalIndex + 1;
+    this.announceText = `Image ${this.modalIndex + 1} of ${this.images.length}`;
   };
 
   private selectModalImage = (index: number) => {
     this.modalIndex = index;
+    this.announceText = `Image ${this.modalIndex + 1} of ${this.images.length}`;
   };
 
   private closeModal = () => {
     this.isModalOpen = false;
     document.body.style.overflow = '';
+    this.announceText = 'Lightbox closed';
+
+    // Restore focus to the element that opened the modal
+    setTimeout(() => {
+      this.lastFocusedElement?.focus();
+    }, 100);
+  };
+
+  private handleModalClick = (event: MouseEvent) => {
+    // Close modal when clicking the backdrop
+    if (event.target === this.modalRef) {
+      this.closeModal();
+    }
+  };
+
+  private trapFocus = (event: KeyboardEvent) => {
+    if (!this.isModalOpen || event.key !== 'Tab') return;
+
+    const focusableElements = this.modalRef?.querySelectorAll('button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+
+    if (!focusableElements || focusableElements.length === 0) return;
+
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+    if (event.shiftKey) {
+      // Shift + Tab
+      if (document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      }
+    } else {
+      // Tab
+      if (document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    }
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
@@ -109,6 +162,8 @@ export class ImageGallery {
   };
 
   private handleModalKeyDown = (event: KeyboardEvent) => {
+    this.trapFocus(event);
+
     if (event.key === 'Escape') {
       this.closeModal();
     } else if (event.key === 'ArrowLeft') {
@@ -189,9 +244,17 @@ export class ImageGallery {
         </div>
 
         {this.isModalOpen && !this.isMobile && (
-          <div class="modal" role="dialog" aria-modal="true" aria-label="Image gallery lightbox" onClick={this.closeModal} onKeyDown={this.handleModalKeyDown}>
+          <div
+            class="modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Image gallery lightbox"
+            onClick={this.handleModalClick}
+            onKeyDown={this.handleModalKeyDown}
+            ref={el => (this.modalRef = el)}
+          >
             <div class="modal__content" onClick={(e: Event) => e.stopPropagation()}>
-              <button class="modal__close" onClick={this.closeModal} aria-label="Close lightbox" type="button">
+              <button class="modal__close" onClick={this.closeModal} aria-label="Close lightbox" type="button" ref={el => (this.modalCloseButtonRef = el)}>
                 <img src="./assets/icon-close.svg" alt="" aria-hidden="true" />
               </button>
 
@@ -226,6 +289,11 @@ export class ImageGallery {
             </div>
           </div>
         )}
+
+        {/* Live region for screen reader announcements */}
+        <div role="status" aria-live="polite" aria-atomic="true" style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}>
+          {this.announceText}
+        </div>
       </Host>
     );
   }
