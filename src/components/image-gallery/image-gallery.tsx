@@ -14,6 +14,7 @@ interface GalleryImage {
 })
 export class ImageGallery {
   @State() currentIndex: number = 0;
+  @State() modalIndex: number = 0;
   @State() isModalOpen: boolean = false;
   @State() isMobile: boolean = false;
 
@@ -74,9 +75,22 @@ export class ImageGallery {
 
   private openModal = () => {
     if (!this.isMobile) {
+      this.modalIndex = this.currentIndex;
       this.isModalOpen = true;
       document.body.style.overflow = 'hidden';
     }
+  };
+
+  private goToModalPrevious = () => {
+    this.modalIndex = this.modalIndex === 0 ? this.images.length - 1 : this.modalIndex - 1;
+  };
+
+  private goToModalNext = () => {
+    this.modalIndex = this.modalIndex === this.images.length - 1 ? 0 : this.modalIndex + 1;
+  };
+
+  private selectModalImage = (index: number) => {
+    this.modalIndex = index;
   };
 
   private closeModal = () => {
@@ -95,7 +109,13 @@ export class ImageGallery {
   };
 
   private handleModalKeyDown = (event: KeyboardEvent) => {
-    this.handleKeyDown(event);
+    if (event.key === 'Escape') {
+      this.closeModal();
+    } else if (event.key === 'ArrowLeft') {
+      this.goToModalPrevious();
+    } else if (event.key === 'ArrowRight') {
+      this.goToModalNext();
+    }
   };
 
   private handleMainImageKeyDown = (event: KeyboardEvent) => {
@@ -113,8 +133,16 @@ export class ImageGallery {
     }
   };
 
+  private handleModalThumbnailKeyDown = (event: KeyboardEvent, index: number) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.selectModalImage(index);
+    }
+  };
+
   render() {
     const currentImage = this.images[this.currentIndex];
+    const modalImage = this.images[this.modalIndex];
 
     return (
       <Host>
@@ -168,13 +196,13 @@ export class ImageGallery {
               </button>
 
               <div class="modal__image-container">
-                <img class="modal__image" src={currentImage.full} alt={currentImage.alt} />
+                <img class="modal__image" src={modalImage.full} alt={modalImage.alt} />
 
-                <button class="modal__nav modal__nav--previous" onClick={this.goToPrevious} aria-label="Previous image" type="button">
+                <button class="modal__nav modal__nav--previous" onClick={this.goToModalPrevious} aria-label="Previous image" type="button">
                   <img src="./assets/icon-previous.svg" alt="" aria-hidden="true" />
                 </button>
 
-                <button class="modal__nav modal__nav--next" onClick={this.goToNext} aria-label="Next image" type="button">
+                <button class="modal__nav modal__nav--next" onClick={this.goToModalNext} aria-label="Next image" type="button">
                   <img src="./assets/icon-next.svg" alt="" aria-hidden="true" />
                 </button>
               </div>
@@ -182,13 +210,13 @@ export class ImageGallery {
               <div class="modal__thumbnails" role="tablist" aria-label="Product images">
                 {this.images.map((image, index) => (
                   <button
-                    class={`modal__thumbnail ${index === this.currentIndex ? 'modal__thumbnail--active' : ''}`}
-                    onClick={() => this.selectImage(index)}
-                    onKeyDown={(e: KeyboardEvent) => this.handleThumbnailKeyDown(e, index)}
+                    class={`modal__thumbnail ${index === this.modalIndex ? 'modal__thumbnail--active' : ''}`}
+                    onClick={() => this.selectModalImage(index)}
+                    onKeyDown={(e: KeyboardEvent) => this.handleModalThumbnailKeyDown(e, index)}
                     role="tab"
-                    aria-selected={index === this.currentIndex ? 'true' : 'false'}
+                    aria-selected={index === this.modalIndex ? 'true' : 'false'}
                     aria-label={`View image ${index + 1}`}
-                    tabIndex={index === this.currentIndex ? 0 : -1}
+                    tabIndex={index === this.modalIndex ? 0 : -1}
                     type="button"
                   >
                     <img class="modal__thumbnail-image" src={image.thumbnail} alt="" aria-hidden="true" />
